@@ -4,7 +4,7 @@ library(ggplot2)
 MaxLoopCount<-1
 phone <- c("13891843489","13649274024","13759782788","13474699331")
 #该手机号触发了黑名单
-phone <- c(phone,"15847340391")
+#phone <- c(phone,"15847340391")
 
 
 source(file = "PhoneLinkPhone.R")
@@ -39,21 +39,32 @@ findResult$payamt=as.integer(findResult$payamt)/100
 findResult$paytranresult[is.na(findResult$paytranresult)]=findResult$orderriskresult[is.na(findResult$paytranresult)]
 
 #Draw Graphics
-ggplot(findResult,aes(x = factor(substring(created,6,16)),y = payamt,group=1)) +
+p<-ggplot(findResult,aes(x = factor(substring(created,9,16)),y = payamt,group=1)) +
   geom_point(size=8,aes(shape=paytranresult)) +
   geom_line() +
-  geom_vline(xintercept=3.5,linetype="dashed") +    #时间分割线
-  geom_vline(xintercept=5.5,linetype="dashed") +    #时间分割线
-  geom_vline(xintercept=6.5,linetype="dashed") +    #时间分割线
-  geom_vline(xintercept=7.5,linetype="dashed") +    #时间分割线
-  geom_vline(xintercept=8.5,linetype="dashed") +    #时间分割线
   ylim(0,120) +
-  annotate("rect",ymin = 0,ymax = 120,xmin = 1.5,xmax = 2.5,fill="blue",alpha=.1) +  #盗卡区域
-  annotate("rect",ymin = 0,ymax = 120,xmin = 5.5,xmax = 6.5,fill="blue",alpha=.1) +  #盗卡区域
-  annotate("rect",ymin = 0,ymax = 120,xmin = 8.5,xmax = 11.5,fill="blue",alpha=.1) +  #盗卡区域
+  #annotate("rect",ymin = 0,ymax = 120,xmin = 1.5,xmax = 2.5,fill="blue",alpha=.1) +  #盗卡区域
+  #annotate("rect",ymin = 0,ymax = 120,xmin = 5.5,xmax = 6.5,fill="blue",alpha=.1) +  #盗卡区域
+  #annotate("rect",ymin = 0,ymax = 120,xmin = 8.5,xmax = 11.5,fill="blue",alpha=.1) +  #盗卡区域
   geom_text(aes(label=bankcardmask,vjust=-2),colour="red") +  #银行卡后四位
   geom_text(aes(label=substr(orderphone,8,11),vjust=-4)) +    #充值手机号后四位
   geom_text(aes(label=substr(rcgphone,8,11),vjust=2)) +       #被充值手机号后四位
   geom_text(aes(label=paste("¥",payamt,sep=""),vjust=-6),colour="blue") + #金额
   ylab("金额") + xlab("时间") +
   coord_fixed(ratio = 1/20)
+
+start_pivot<-1
+end_pivot<-2
+threshold<-3000
+splitLines<-c()
+while(end_pivot<length(findResult$created)){
+  if(sd(findResult[start_pivot:end_pivot,]$created)>threshold){
+    splitLines<-c(splitLines,end_pivot-0.5)
+    p<-p+geom_vline(xintercept=end_pivot-0.5,linetype="dashed")    #时间分割线
+    start_pivot<-end_pivot
+    end_pivot<-end_pivot+1
+  } else {
+    end_pivot<-end_pivot+1
+  }
+}
+p
