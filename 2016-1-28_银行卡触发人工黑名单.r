@@ -11,3 +11,12 @@ card<-link_Phone_2_Card(phone)
 findResult <- searchIVRRiskDB(query = query_card(card))
 
 draw_IVR_Trace(findResult)
+
+#验证facet_grid的样式
+ggplot(findResult,aes(x=factor(created),y=payamt,group=1)) +
+  geom_line() +
+  geom_vline(xintercept=7.5,linetype="dashed")  +  #时间分割线
+  geom_point(size=5,aes(shape=paytranresult)) +
+  geom_text(aes(label=substr(orderphone,8,11),vjust=-2)) +    #充值手机号后四位
+  geom_text(aes(label=substr(rcgphone,8,11),vjust=2)) +       #被充值手机号后四位
+  facet_grid(bankcardmask ~ .,labeller=label_both)
