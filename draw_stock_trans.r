@@ -1,6 +1,6 @@
 library(ggplot2)
 
-stock<- read.csv(file = "jxzy_2016_03_17.txt")
+stock<- read.csv(file = "xmgm_2016_03_18.txt")
 stock$no<-seq(from = 1,to=dim(stock)[1])
 
 ggplot(stock,aes(x = no,y = price,group=1)) +
