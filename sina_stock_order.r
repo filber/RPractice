@@ -4,9 +4,11 @@ library(mongolite)
 con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
 
 while(TRUE) {
-  response<-getURL(url = paste("http://hq.sinajs.cn/list=",commandArgs(trailingOnly = TRUE)[1],sep = ""))
+  #stocks<-commandArgs(trailingOnly = TRUE)[1]
+  stocks<-'sh600516'
+  response<-getURL(url = paste("http://hq.sinajs.cn/list=",stocks,sep = ""))
   response_vector<-strsplit(response,',')[[1]]
-  for(i in seq(from = 0,to = length(strsplit(commandArgs(trailingOnly = TRUE)[1],",")[[1]])-1)){
+  for(i in seq(from = 0,to = length(strsplit(stocks,",")[[1]])-1)){
     offset<-i*32
     #代码
     start_index<-regexpr("hq_str_",response_vector[offset+1])[1]+7
@@ -30,27 +32,27 @@ while(TRUE) {
     #成交额
     record$tody_amount<-as.numeric(response_vector[offset+10])
     #五档买盘
-    record$buy_order_price_1<-as.numeric(response_vector[offset+11])#买一价格
-    record$buy_order_count_1<-as.numeric(response_vector[offset+12])#买一手数
-    record$buy_order_price_2<-as.numeric(response_vector[offset+13])
-    record$buy_order_count_2<-as.numeric(response_vector[offset+14])
-    record$buy_order_price_3<-as.numeric(response_vector[offset+15])
-    record$buy_order_count_3<-as.numeric(response_vector[offset+16])
-    record$buy_order_price_4<-as.numeric(response_vector[offset+17])
-    record$buy_order_count_4<-as.numeric(response_vector[offset+18])
-    record$buy_order_price_5<-as.numeric(response_vector[offset+19])
-    record$buy_order_count_5<-as.numeric(response_vector[offset+20])
+    record$buy_order_count_1<-as.numeric(response_vector[offset+11])
+    record$buy_order_price_1<-as.numeric(response_vector[offset+12])
+    record$buy_order_count_2<-as.numeric(response_vector[offset+13])
+    record$buy_order_price_2<-as.numeric(response_vector[offset+14])
+    record$buy_order_count_3<-as.numeric(response_vector[offset+15])
+    record$buy_order_price_3<-as.numeric(response_vector[offset+16])
+    record$buy_order_count_4<-as.numeric(response_vector[offset+17])
+    record$buy_order_price_4<-as.numeric(response_vector[offset+18])
+    record$buy_order_count_5<-as.numeric(response_vector[offset+19])
+    record$buy_order_price_5<-as.numeric(response_vector[offset+20])
     #五档卖盘
-    record$sell_order_price_1<-as.numeric(response_vector[offset+21])#卖一价格
-    record$sell_order_count_1<-as.numeric(response_vector[offset+22])#卖一手数
-    record$sell_order_price_2<-as.numeric(response_vector[offset+23])
-    record$sell_order_count_2<-as.numeric(response_vector[offset+24])
-    record$sell_order_price_3<-as.numeric(response_vector[offset+25])
-    record$sell_order_count_3<-as.numeric(response_vector[offset+26])
-    record$sell_order_price_4<-as.numeric(response_vector[offset+27])
-    record$sell_order_count_4<-as.numeric(response_vector[offset+28])
-    record$sell_order_price_5<-as.numeric(response_vector[offset+29])
-    record$sell_order_count_5<-as.numeric(response_vector[offset+30])
+    record$sell_order_count_1<-as.numeric(response_vector[offset+21])
+    record$sell_order_price_1<-as.numeric(response_vector[offset+22])
+    record$sell_order_count_2<-as.numeric(response_vector[offset+23])
+    record$sell_order_price_2<-as.numeric(response_vector[offset+24])
+    record$sell_order_count_3<-as.numeric(response_vector[offset+25])
+    record$sell_order_price_3<-as.numeric(response_vector[offset+26])
+    record$sell_order_count_4<-as.numeric(response_vector[offset+27])
+    record$sell_order_price_4<-as.numeric(response_vector[offset+28])
+    record$sell_order_count_5<-as.numeric(response_vector[offset+29])
+    record$sell_order_price_5<-as.numeric(response_vector[offset+30])
     #存数据库
     try(expr = {con$insert(record)},silent = TRUE)
   }
