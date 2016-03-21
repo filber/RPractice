@@ -4,8 +4,8 @@ library(mongolite)
 con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
 
 while(TRUE) {
-  #stocks<-commandArgs(trailingOnly = TRUE)[1]
-  stocks<-'sh600516'
+  stocks<-commandArgs(trailingOnly = TRUE)[1]
+  #stocks<-'sh600516'
   response<-getURL(url = paste("http://hq.sinajs.cn/list=",stocks,sep = ""))
   response_vector<-strsplit(response,',')[[1]]
   for(i in seq(from = 0,to = length(strsplit(stocks,",")[[1]])-1)){
