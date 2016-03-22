@@ -2,8 +2,7 @@ library(RCurl)
 library(mongolite)
 
 con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
-
-while(TRUE) {
+retrieveData<- function(){
   stocks<-commandArgs(trailingOnly = TRUE)[1]
   #stocks<-'sh600516'
   response<-getURL(url = paste("http://hq.sinajs.cn/list=",stocks,sep = ""))
@@ -54,7 +53,12 @@ while(TRUE) {
     record$sell_order_count_5<-as.numeric(response_vector[offset+29])/100
     record$sell_order_price_5<-as.numeric(response_vector[offset+30])
     #存数据库
-    try(expr = {con$insert(record)},silent = TRUE)
+    if(record$current_price!=0){
+      try(expr = {con$insert(record)},silent = TRUE)  
+    }
   }
+}
+while(TRUE) {
+  try(retrieveData(),silent = FALSE)
   Sys.sleep(1)
 }
