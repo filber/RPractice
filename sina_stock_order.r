@@ -53,7 +53,7 @@ retrieveData<- function(){
     record$sell_order_count_5<-as.numeric(response_vector[offset+29])/100
     record$sell_order_price_5<-as.numeric(response_vector[offset+30])
     #存数据库
-    if(record$current_price!=0){
+    if(record$buy_order_price_1!=0 || record$sell_order_price_1!=0){
       try(expr = {con$insert(record)},silent = TRUE)  
     }
   }
