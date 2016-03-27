@@ -1,12 +1,15 @@
 library(ggplot2)
 library(mongolite)
-
 con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
 
+#sh600516
+#sh601000
+#sh600383
+#sh601390
 db_record<-con$aggregate(pipeline='[
                   {"$match":{"code":"sh600516",
-                             "data_date":"2016-03-21",
-                             "data_time":{"$gt":"14:00","$lt":"15:00"}}},
+                             "data_date":{"$in":["2016-03-21","2016-03-22","2016-03-23","2016-03-24","2016-03-25"]},
+                             "data_time":{"$gt":"09:30","$lt":"15:00"}}},
                   {"$project":{
                     "_id" : 0,
                     "code":1,
@@ -37,15 +40,10 @@ db_record<-con$aggregate(pipeline='[
                     "count":"$order.count",
                     "price":"$order.price"
                 }},
-                {"$sort":{
-                    "time":1,
-                    "code":1
-                }}
+                {"$match":{"count":{"$gt":1000},"price":{"$ne":0}}}}
                          ]')
-stock_subset<-subset(db_record,subset = count>500)
-#ggplot(db_record,aes(x = time,y = price)) +
-ggplot(stock_subset,aes(x = time,y = price)) +
+ggplot(db_record,aes(x = time,y = price)) +
   geom_point(aes(size=count,shape=flag,color=count)) +
-  #geom_line(aes(group=time)) +
-  geom_text(aes(y=current_price),label="=",colour="red") +
+  facet_grid(. ~ date) +
+  geom_text(aes(y=current_price),label="-",colour="red") +
   scale_colour_gradient(high = "#132B43", low = "#56B1F7")

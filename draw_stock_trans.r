@@ -1,17 +1,31 @@
 library(ggplot2)
+retrieveStockTrans<-function(d,fileName){
+  stock<- read.csv(file = paste("D:/new_tdx/T0002/export/",fileName,".txt",sep=""))
+  stock$date<-d
+  stock$no<-seq(from = 1,to=dim(stock)[1])
+  stock
+}
 
-stock<- read.csv(file = "xmgm_2016_03_18.txt")
-stock$no<-seq(from = 1,to=dim(stock)[1])
+stock<-retrieveStockTrans("20160321","fdts_2016_03_21")
+stock<-rbind(stock,retrieveStockTrans("20160322","fdts_2016_03_22"))
+stock<-rbind(stock,retrieveStockTrans("20160323","fdts_2016_03_23"))
+stock<-rbind(stock,retrieveStockTrans("20160324","fdts_2016_03_24"))
+stock<-rbind(stock,retrieveStockTrans("20160325","fdts_2016_03_25"))
 
 ggplot(stock,aes(x = no,y = price,group=1)) +
-  geom_point(aes(size=amount,shape=flag,color=amount)) +
-  scale_colour_gradient(high = "#132B43", low = "#56B1F7")
+  geom_point(aes(size=amount,shape=flag,color=flag)) +
+  facet_grid(date ~ .)
 
-
-stock_subset<-subset(stock,subset = amount>2000)
+stock_subset<-subset(stock,subset = amount>700)
+ggplot(stock_subset,aes(x = no,y = price,group=1)) +
+  geom_point(aes(size=amount,shape=flag,color=flag)) +
+  facet_grid(. ~ date) +
+  geom_hline(yintercept=10.2,linetype="dashed") +
+  geom_hline(yintercept=9.8,linetype="dashed")
 summary(stock_subset)
 sum(subset(stock_subset,subset=flag=='B')$amount)
 sum(subset(stock_subset,subset=flag=='S')$amount)
 
-ggplot(stock_subset,aes(x=flag,fill=flag)) +
-  geom_bar(stat="bin",colour="black")
+summary(stock)
+sum(subset(stock,subset=flag=='B')$amount)
+sum(subset(stock,subset=flag=='S')$amount)
