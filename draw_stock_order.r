@@ -2,14 +2,16 @@ library(ggplot2)
 library(mongolite)
 con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
 
-#sh600516
-#sh601000
-#sh600383
-#sh601390
+#sh600516--方大碳素
+#sh601000--唐山港
+#sh600383--金地集团
+#sh600755--厦门国贸
+#sh600622--嘉宝集团
+#sh601390--中国中铁
 db_record<-con$aggregate(pipeline='[
-                  {"$match":{"code":"sh600516",
-                             "data_date":{"$in":["2016-03-21","2016-03-22","2016-03-23","2016-03-24","2016-03-25"]},
-                             "data_time":{"$gt":"09:30","$lt":"15:00"}}},
+                  {"$match":{"code":"sh600622",
+                             "data_date":{"$in":["2016-03-28"]},
+                             "data_time":{"$gt":"13:00","$lt":"15:00"}}},
                   {"$project":{
                     "_id" : 0,
                     "code":1,
@@ -40,7 +42,7 @@ db_record<-con$aggregate(pipeline='[
                     "count":"$order.count",
                     "price":"$order.price"
                 }},
-                {"$match":{"count":{"$gt":1000},"price":{"$ne":0}}}}
+                {"$match":{"count":{"$gt":500},"price":{"$ne":0}}}
                          ]')
 ggplot(db_record,aes(x = time,y = price)) +
   geom_point(aes(size=count,shape=flag,color=count)) +
