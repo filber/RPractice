@@ -10,8 +10,8 @@ con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
 #sh601390--中国中铁
 db_record<-con$aggregate(pipeline='[
                   {"$match":{"code":"sh600622",
-                             "data_date":{"$in":["2016-03-28"]},
-                             "data_time":{"$gt":"13:00","$lt":"15:00"}}},
+                             "data_date":{"$in":["2016-03-29"]},
+                             "data_time":{"$gt":"09:00","$lt":"15:00"}}},
                   {"$project":{
                     "_id" : 0,
                     "code":1,
@@ -42,8 +42,9 @@ db_record<-con$aggregate(pipeline='[
                     "count":"$order.count",
                     "price":"$order.price"
                 }},
-                {"$match":{"count":{"$gt":500},"price":{"$ne":0}}}
+                {"$match":{"count":{"$gt":0},"price":{"$ne":0}}}
                          ]')
+db_record$time<-as.POSIXct(db_record$time,format="%H:%M:%S")
 ggplot(db_record,aes(x = time,y = price)) +
   geom_point(aes(size=count,shape=flag,color=count)) +
   facet_grid(. ~ date) +
