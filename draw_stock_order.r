@@ -8,10 +8,13 @@ con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
 #sh600755--厦门国贸
 #sh600622--嘉宝集团
 #sh601390--中国中铁
+#sh600724--宁波富达
+#sh600126--杭钢股份
+#sz000671--阳光城
 db_record<-con$aggregate(pipeline='[
-                  {"$match":{"code":"sh600622",
-                             "data_date":{"$in":["2016-03-29"]},
-                             "data_time":{"$gt":"09:00","$lt":"15:00"}}},
+                  {"$match":{"code":"sh600724",
+                             "data_date":{"$in":["2016-04-05"]},
+                             "data_time":{"$gt":"09:30","$lt":"15:00"}}},
                   {"$project":{
                     "_id" : 0,
                     "code":1,

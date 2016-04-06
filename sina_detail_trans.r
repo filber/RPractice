@@ -23,7 +23,10 @@ sina_detail_trans<-function(symbol,date_vector){
   trans_frame
 }
 
-trans_frame<-sina_detail_trans("sz000767",c("2016-03-21","2016-03-22","2016-03-23","2016-03-24","2016-03-25","2016-03-28","2016-03-29"))
+symbol<-"sh600724"
+dates<-c("2016-02-15","2016-02-16","2016-02-17","2016-02-18","2016-02-19","2016-02-22")
+trans_frame<-sina_detail_trans(symbol,dates)
 ggplot(trans_frame,aes(x = time,y = price,group=1)) +
   geom_point(aes(size=count,shape=flag,color=flag)) +
-  facet_grid(. ~ date)
+  facet_wrap(~ date,ncol = 3) +
+  ggtitle(label = symbol)
