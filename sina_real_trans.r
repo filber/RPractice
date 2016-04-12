@@ -59,11 +59,10 @@ p1<-ggplot(sina_real_trans,aes(x = time,y = price,group=1)) +
   xlim(min(db_record$time),max(db_record$time)) +
   ggtitle(stock_title)
 p2<-ggplot(db_record,aes(x = time,y = price)) +
-    geom_point(aes(size=count,shape=flag,color=count)) +
+    geom_point(aes(size=count,shape=flag,color=flag)) +
     geom_text(aes(y=current_price),label="-",colour="red") +
   ylim(min(db_record$price),max(db_record$price)) +
-  xlim(min(db_record$time),max(db_record$time)) +
-    scale_colour_gradient(high = "#132B43", low = "#56B1F7")
+  xlim(min(db_record$time),max(db_record$time))
 
 png(file = paste(stock_title,".png",sep=""),width=800,height=600)
 grid.newpage()

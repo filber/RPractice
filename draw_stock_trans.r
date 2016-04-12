@@ -8,7 +8,7 @@ retrieveStockTrans<-function(d,fileName){
   stock
 }
 
-stock<-retrieveStockTrans("20160401","nbfd_2016_04_01")
+stock<-retrieveStockTrans("20160406","zgzt_2016_04_08")
 #stock<-rbind(stock,retrieveStockTrans("20160322","hryy_2016_03_22"))
 #stock<-rbind(stock,retrieveStockTrans("20160323","hryy_2016_03_23"))
 #stock<-rbind(stock,retrieveStockTrans("20160324","hryy_2016_03_24"))

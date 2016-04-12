@@ -23,8 +23,8 @@ sina_detail_trans<-function(symbol,date_vector){
   trans_frame
 }
 
-symbol<-"sh600724"
-dates<-c("2016-02-15","2016-02-16","2016-02-17","2016-02-18","2016-02-19","2016-02-22")
+symbol<-"sh600383"
+dates<-c("2016-04-05","2016-04-06","2016-04-07")
 trans_frame<-sina_detail_trans(symbol,dates)
 ggplot(trans_frame,aes(x = time,y = price,group=1)) +
   geom_point(aes(size=count,shape=flag,color=flag)) +
