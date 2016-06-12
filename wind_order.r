@@ -100,7 +100,7 @@ retrieveData<- function(){
   }
 }
 
-con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
+con <- mongo(collection = "stock",url = 'mongodb://114.215.151.231:27017/stock')
 w.start(showmenu=FALSE);
 stock_vector<-strsplit(commandArgs(trailingOnly = TRUE)[1],',')[[1]]
 while(TRUE) {
@@ -108,6 +108,5 @@ while(TRUE) {
   try(retrieveData(),silent = FALSE)
   Sys.sleep(1)
 }
-
 w.stop()
 

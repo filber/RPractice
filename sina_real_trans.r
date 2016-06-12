@@ -5,16 +5,19 @@ library(grid)
 
 symbol<-commandArgs(trailingOnly = TRUE)[1]
 dbSymbol<-commandArgs(trailingOnly = TRUE)[2]
-# symbol<-"sh601069"
-# dbSymbol<-"601069.SH"
 today<-as.character.Date(Sys.Date(),format="%Y%m%d")
-url<-paste("http://vip.stock.finance.sina.com.cn/quotes_service/view/cn_bill_download.php?sort=ticktime&asc=1&volume=30000&amount=0&type=0&symbol=",symbol,"&day=",as.character.Date(Sys.Date()),sep = "");
+today2<-as.character.Date(Sys.Date())
+# symbol<-"sh601211"
+# dbSymbol<-"601211.SH"
+# today<-'20160608'
+# today2<-'2016-06-08'
+url<-paste("http://vip.stock.finance.sina.com.cn/quotes_service/view/cn_bill_download.php?sort=ticktime&asc=1&volume=30000&amount=0&type=0&symbol=",symbol,"&day=",today2,sep = "");
 
 sina_real_trans<-read.csv(file = url,col.names=c("code","name","time","price","amount","pre_price","flag"),encoding="GBK")
 sina_real_trans$time<-as.POSIXct(sina_real_trans$time,format="%H:%M:%S")
 sina_real_trans$amount<-sina_real_trans$amount/100
 
-con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
+con <- mongo(collection = "stock",url = 'mongodb://114.215.151.231:27017/stock')
 db_record<-con$aggregate(pipeline=paste('[
                   {"$match":{"code":"',dbSymbol,'",
                          "data_date":{"$in":[',today,']}}},
@@ -58,10 +61,9 @@ db_record<-con$aggregate(pipeline=paste('[
                                            "count":"$order.count",
                                            "price":"$order.price"
                   }},
-                  {"$match":{"count":{"$gt":200},"price":{"$ne":0}}}
+                  {"$match":{"count":{"$gt":1000},"price":{"$ne":0}}}
                          ]',sep=""))
-db_record$time<-as.POSIXct(as.character(db_record$time),format="%H%M%S")
-
+db_record$time<-as.POSIXct(sprintf("%06d",db_record$time),format="%H%M%S")
 stock_title<-paste(head(sina_real_trans$name,n = 1),"[",symbol,"]",today,sep="")
 p1<-ggplot(sina_real_trans,aes(x = time,y = price,group=1)) +
   geom_point(aes(size=amount,shape=flag,color=flag)) +

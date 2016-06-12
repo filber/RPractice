@@ -26,7 +26,7 @@ sina_detail_trans<-function(symbol,date_vector){
 }
 
 sina_detail_order<-function(symbol,date_vector){
-  con <- mongo(collection = "stock",url = 'mongodb://localhost:27017/stock')
+  con <- mongo(collection = "stock",url = 'mongodb://114.215.151.231:27017/stock')
   
   db_record<-con$aggregate(pipeline=paste('[
     {"$match":{"code":"',symbol,'",
