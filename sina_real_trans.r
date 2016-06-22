@@ -61,7 +61,7 @@ db_record<-con$aggregate(pipeline=paste('[
                                            "count":"$order.count",
                                            "price":"$order.price"
                   }},
-                  {"$match":{"count":{"$gt":1000},"price":{"$ne":0}}}
+                  {"$match":{"count":{"$gt":500},"price":{"$ne":0}}}
                          ]',sep=""))
 db_record$time<-as.POSIXct(sprintf("%06d",db_record$time),format="%H%M%S")
 stock_title<-paste(head(sina_real_trans$name,n = 1),"[",symbol,"]",today,sep="")
