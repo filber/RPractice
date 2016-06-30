@@ -12,14 +12,8 @@ if(is.na(optimizeFlag)) {
   write.csv(paramset.TradeStats, file = paste(resultPrefix,'PARAM_STATS.csv',sep = ''))  
 }
 
-# # 模型参数 ---------------------------------------------------------------------
-# for(paramIndex in length(PARAM)) {
-#   eval(parse("PARAM$ORDER.QTY.BUY"))
-#   
-#   write(x = PARAM[param],file = paste(resultPrefix,'PARAM.txt',sep = ''),append = TRUE)
-# }
-# 
-# lapply(X = PARAM,FUN = function(x){
-#   
-#   write(x,file = paste(resultPrefix,'PARAM.txt',sep = ''),append = TRUE)
-# })
+# 模型参数 ---------------------------------------------------------------------
+for(i in 1:length(PARAM)) {
+  write(names(PARAM[i]),paste(resultPrefix,'PARAM.txt',sep = ''), append=TRUE)
+  lapply(PARAM[i],write,paste(resultPrefix,'PARAM.txt',sep = ''), append=TRUE)
+}
