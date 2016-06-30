@@ -3,18 +3,18 @@
 # INDICATOR ---------------------------------------------------------------------
 
 #ROC周期
-PARAM$ROC.INDICATOR.ROC.N<-8
+PARAM$ROC.INDICATOR.ROC.N<-15
 
 #MAROC周期
-PARAM$ROC.INDICATOR.MAROC.N<-9
+PARAM$ROC.INDICATOR.MAROC.N<-14
 
 # SIGNAL ------------------------------------------------------------------
 
 #上限值
-PARAM$ROC.SIGNAL.ROC.GT.HIGH <- 0.008
+PARAM$ROC.SIGNAL.ROC.GT.HIGH <- 0.019
 
 #下限值
-PARAM$ROC.SIGNAL.ROC.LT.LOW <- -0.008
+PARAM$ROC.SIGNAL.ROC.LT.LOW <- -0.012
 
 # DISTRIBUTION ------------------------------------------------------------------
 
