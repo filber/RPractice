@@ -9,7 +9,7 @@ PARAM$ORDER.QTY.SELL <- -1000
 
 # ROC ---------------------------------------------------------------------
 # PARAM$PARAMSET.LABEL <- 'ROC'
-# source(file = "StrategyScript/ROC_Param.r")
+source(file = "StrategyScript/ROC_Param.r")
 # source(file = "StrategyScript/ROC_Logic.r")
 
 # SAR ---------------------------------------------------------------------

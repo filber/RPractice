@@ -9,7 +9,8 @@ dev.off()
 # SAR ---------------------------------------------------------------------
 png(file = paste(resultPrefix,'SAR.png',sep = ''),width=800,height=600)
 chartSeries(x = Data, name = 'SAR',theme = chartTheme("white"),TA = '
-            addSMA(n=5);addSMA(n=10);addVo();addSAR(accel = c(0.02, 0.2));')
+            addSMA(n=5);addSMA(n=10);addVo();
+            addSAR(accel = c(PARAM$SAR.INDICATOR.SAR.ACCEL,PARAM$SAR.INDICATOR.SAR.ACCEL.MAX));')
 dev.off()
 
 # 仓位&盈利&回撤 --------------------------------------------------------------------
