@@ -13,6 +13,15 @@ chartSeries(x = Data, name = 'SAR',theme = chartTheme("white"),TA = '
             addSAR(accel = c(PARAM$SAR.INDICATOR.SAR.ACCEL,PARAM$SAR.INDICATOR.SAR.ACCEL.MAX));')
 dev.off()
 
+# RSI ---------------------------------------------------------------------
+png(file = paste(resultPrefix,'RSI.png',sep = ''),width=800,height=600)
+chartSeries(x = Data, name = 'RSI',theme = chartTheme("white"),TA = '
+            addSMA(n=5);addSMA(n=10);addVo();
+            addTA(ta = RSI(price= Cl(Data),n =PARAM$RSI.INDICATOR.RSI.SHORT.N,maType="EMA"),col="red");
+            addTA(ta = RSI(price= Cl(Data),n =PARAM$RSI.INDICATOR.RSI.LONG.N,maType="EMA"),col="blue",on=3)')
+
+dev.off()
+
 # 仓位&盈利&回撤 --------------------------------------------------------------------
 png(file = paste(resultPrefix,'POSN.png',sep = ''),width=800,height=600)
 chart.Posn(q.strategy, Symbol = stockSymbol)

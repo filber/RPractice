@@ -1,0 +1,41 @@
+# ROC参数值
+
+# INDICATOR ---------------------------------------------------------------------
+
+#短期RSI周期
+PARAM$RSI.INDICATOR.RSI.SHORT.N<-10
+
+#长期RSI周期
+PARAM$RSI.INDICATOR.RSI.LONG.N<-18
+
+# SIGNAL ------------------------------------------------------------------
+
+PARAM$RSI.SIGNAL.RSI.SHORT.GT.X1<-54
+
+PARAM$RSI.SIGNAL.RSI.SHORT.LT.X2<-46
+
+PARAM$RSI.SIGNAL.RSI.SHORT.LT.X3<-20
+
+PARAM$RSI.SIGNAL.RSI.SHORT.GT.X4<-84
+
+# DISTRIBUTION ------------------------------------------------------------------
+
+#短期RSI的周期分布
+PARAM$RSI.DIS.INDICATOR.RSI.SHORT.N<-10:15
+
+#长期RSI的周期分布
+PARAM$RSI.DIS.INDICATOR.RSI.LONG.N<-15:20
+
+#X1
+PARAM$RSI.DIS.SIGNAL.RSI.SHORT.GT.X1<-50:60
+
+#X2
+PARAM$RSI.DIS.SIGNAL.RSI.SHORT.LT.X2<-40:50
+
+#X3
+PARAM$RSI.DIS.SIGNAL.RSI.SHORT.LT.X3<-15:30
+
+#X4
+PARAM$RSI.DIS.SIGNAL.RSI.SHORT.GT.X4<-75:90
+
+

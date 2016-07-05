@@ -2,7 +2,7 @@ require(quantstrat)
 
 # 初始化金融产品
 stockSymbol<-'Data'
-initDate<-"2016-06-01"
+initDate<-"2016-03-01"
 currency("RMB")
 stock(stockSymbol, currency = "RMB", multiplier = 1)
 

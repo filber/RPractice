@@ -15,10 +15,15 @@ source(file = "StrategyScript/ROC_Param.r")
 # SAR ---------------------------------------------------------------------
 PARAM$PARAMSET.LABEL <- 'SAR'
 source(file = "StrategyScript/SAR_Param.r")
-source(file = "StrategyScript/SAR_Logic.r")
+#source(file = "StrategyScript/SAR_Logic.r")
+
+# RSI ---------------------------------------------------------------------
+PARAM$PARAMSET.LABEL <- 'RSI'
+source(file = "StrategyScript/RSI_Param.r")
+source(file = "StrategyScript/RSI_Logic.r")
 
 # Optimization Config -----------------------------------------------------
 # Paramset Label
-PARAM$PARAMSET.LABEL <- 'SAR'
+PARAM$PARAMSET.LABEL <- 'RSI'
 # Paramset Samples
 PARAM$PARAMSET.NSAMPLES <- 300
