@@ -8,7 +8,7 @@ PARAM$ORDER.QTY.BUY <- 1000
 PARAM$ORDER.QTY.SELL <- -1000
 
 # ROC ---------------------------------------------------------------------
-# PARAM$PARAMSET.LABEL <- 'ROC'
+PARAM$PARAMSET.LABEL <- 'ROC'
 source(file = "StrategyScript/ROC_Param.r")
 # source(file = "StrategyScript/ROC_Logic.r")
 
@@ -20,10 +20,15 @@ source(file = "StrategyScript/SAR_Param.r")
 # RSI ---------------------------------------------------------------------
 PARAM$PARAMSET.LABEL <- 'RSI'
 source(file = "StrategyScript/RSI_Param.r")
-source(file = "StrategyScript/RSI_Logic.r")
+# source(file = "StrategyScript/RSI_Logic.r")
+
+# KDJ ---------------------------------------------------------------------
+PARAM$PARAMSET.LABEL <- 'KDJ'
+source(file = "StrategyScript/KDJ_Param.r")
+source(file = "StrategyScript/KDJ_Logic.r")
 
 # Optimization Config -----------------------------------------------------
 # Paramset Label
-PARAM$PARAMSET.LABEL <- 'RSI'
+PARAM$PARAMSET.LABEL <- 'KDJ'
 # Paramset Samples
 PARAM$PARAMSET.NSAMPLES <- 300

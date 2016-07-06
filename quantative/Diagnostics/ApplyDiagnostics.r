@@ -22,6 +22,13 @@ chartSeries(x = Data, name = 'RSI',theme = chartTheme("white"),TA = '
 
 dev.off()
 
+# KDJ ---------------------------------------------------------------------
+png(file = paste(resultPrefix,'KDJ.png',sep = ''),width=800,height=600)
+chartSeries(x = Data, name = 'KDJ',theme = chartTheme("white"),TA = '
+            addSMA(n=5);addSMA(n=10);addVo();
+            addTA(ta = stoch(HLC= HLC(Data),nFastK = PARAM$KDJ.INDICATOR.KDJ.FASTK.N,nFastD = PARAM$KDJ.INDICATOR.KDJ.FASTD.N,nSlowD = PARAM$KDJ.INDICATOR.KDJ.SLOWD.N,maType="EMA"),col=c("red","blue","black"))')
+dev.off()
+
 # 仓位&盈利&回撤 --------------------------------------------------------------------
 png(file = paste(resultPrefix,'POSN.png',sep = ''),width=800,height=600)
 chart.Posn(q.strategy, Symbol = stockSymbol)
