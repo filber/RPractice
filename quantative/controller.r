@@ -1,8 +1,9 @@
 # EnvPrepare --------------------------------------------------------------
-options(warn = -1)# 关闭警告信息
+# options(warn = -1)# 关闭警告信息
 rm(list = ls(all=TRUE))# 清除所有变量
 source('EnvPrepare/Data.r')# 准备数据
 source('EnvPrepare/Portfolio.r')# 准备投资组合
+source('utils.r')
 
 # StrategyScript ----------------------------------------------------------
 # 加载策略
