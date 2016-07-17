@@ -1,5 +1,5 @@
 
-if(is.na(optimizeFlag)) {
+if(PARAM$FLAG=='apply') {
   # 交易统计
   tradestats<-tradeStats(Portfolio = q.strategy, Symbol = stockSymbol)
   write.csv(tradestats, file = paste(resultPrefix,'STATS.csv',sep = ''))
@@ -7,7 +7,7 @@ if(is.na(optimizeFlag)) {
   # 指令簿
   orderbook<-get.orderbook(portfolio = q.strategy)$DQStrategy$Data
   write.csv(orderbook, file = paste(resultPrefix,'ORDERS.csv',sep = ''))  
-} else {
+} else if(PARAM$FLAG=='optimize') {
   # 交易统计
   write.csv(paramset.TradeStats, file = paste(resultPrefix,'PARAM_STATS.csv',sep = ''))  
 }

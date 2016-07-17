@@ -46,14 +46,14 @@ add.signal(q.strategy, name = "sigFormula",
 add.rule(q.strategy, name = "ruleSignal",label = "KDJ.SELL.DEATH.CROSS",
          arguments = list(
            sigcol = "KDJ.DEATH.CROSS",sigval = TRUE,
-           orderqty = PARAM$ORDER.QTY.SELL, ordertype = "market", orderside = "long",osFUN="osMaxPos", pricemethod = "market",portfolio=q.strategy),
+           orderqty = PARAM$ORDER.QTY.SELL, ordertype = "market", orderside = "long",osFUN="osMinMaxPos", pricemethod = "market",portfolio=q.strategy),
          type = "exit")
 
 #规则2:发生低位金叉则买入
 add.rule(q.strategy, name = "ruleSignal",label = "KDJ.BUY.GOLDEN.CROSS",
          arguments = list(
            sigcol = "KDJ.GOLDEN.CROSS",sigval = TRUE,
-           orderqty = PARAM$ORDER.QTY.BUY, ordertype = "market",osFUN="osMaxPos",orderside = "long", pricemethod = "market",portfolio=q.strategy),
+           orderqty = PARAM$ORDER.QTY.BUY, ordertype = "market",osFUN="osMinMaxPos",orderside = "long", pricemethod = "market",portfolio=q.strategy),
          type = "enter")
 
 # DISTRIBUTION ------------------------------------------------------------------

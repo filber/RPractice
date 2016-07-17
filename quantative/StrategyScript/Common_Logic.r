@@ -1,11 +1,40 @@
-# Model Parameter List ------------------------------------------------------------------
-PARAM<-list()
-
-# Strategy Config ---------------------------------------------------------
-#买入股数
-PARAM$ORDER.QTY.BUY <- 1000
-#卖出股数
-PARAM$ORDER.QTY.SELL <- -1000
+osMinMaxPos<-function (data, timestamp, orderqty, ordertype, orderside, portfolio, 
+          symbol, ruletype, ...) 
+{
+  #取得时间戳所对应的仓位
+  pos <- getPosQty(portfolio, symbol, timestamp)
+  #取得时间戳所处位置的仓位约束
+  PosLimit <- getPosLimit(portfolio, symbol, timestamp)
+  if (is.null(PosLimit)) 
+    stop(paste("no position limit defined for portfolio", portfolio))
+  
+  #对指令所代表的仓位进行转换
+  if (is.character(orderqty)) {
+    if (ruletype == "risk" && orderqty == "all") {
+      orderqty <- pos * -1
+    }
+    else {
+      stop("orderqty ", orderqty, " is not supported for non-risk ruletypes")
+    }
+  }
+  
+  #orderqty>0表明这是一笔买单
+  if (orderqty > 0) {
+    if ((orderqty + pos) > PosLimit[, "MaxPos"]) {
+      orderqty <- PosLimit[, "MaxPos"] - pos
+    }
+    return(as.numeric(orderqty))
+  }
+  
+  #orderqty<0表明这是一笔卖单
+  if (orderqty < 0) {
+    if ((orderqty + pos) < PosLimit[, "MinPos"]) {
+      orderqty <- PosLimit[, "MinPos"] - pos
+    }
+    return(as.numeric(orderqty))
+  }
+  return(0)
+}
 
 # ROC ---------------------------------------------------------------------
 PARAM$PARAMSET.LABEL <- 'ROC'
@@ -30,5 +59,3 @@ source(file = "StrategyScript/KDJ_Logic.r")
 # Optimization Config -----------------------------------------------------
 # Paramset Label
 PARAM$PARAMSET.LABEL <- 'KDJ'
-# Paramset Samples
-PARAM$PARAMSET.NSAMPLES <- 300
