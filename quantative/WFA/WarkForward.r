@@ -281,8 +281,8 @@ while(TRUE)
   DQStrategy<-getStrategy(q.strategy)
   userEnv<-new.env()
 #   进行并发处理
-  cl <- makePSOCKcluster(names=4)
-  registerDoParallel(cl,out='wf.txt')
+  cl <- makePSOCKcluster(names=4,outfile='WalkForward_Log.txt')
+  registerDoParallel(cl)
   result$apply.paramset <- my.apply.paramset(strategy.st=DQStrategy, paramset.label=PARAM$PARAMSET.LABEL,
                                           portfolio.st=q.strategy, account.st=q.strategy,
                                           mktdata=Data[training.timespan], nsamples=PARAM$PARAMSET.NSAMPLES,
@@ -323,14 +323,17 @@ while(TRUE)
   } else {
     if(is.null(tradeStats.list))
       warning(paste('no trades in training window', training.timespan, '; skipping test'))
-    
     k <- k + 1
   }
-  
+  #保存一次训练的结果
+  save(userEnv, file = paste(as.character.Date(index(Data[training.start]),format='%Y%m%d-%H%M%S'),
+                            as.character.Date(index(Data[training.end]),format='%Y%m%d-%H%M%S'),
+                              "RData", sep = "."))
+  userEnv<-NULL
   results[[k]] <- result
-  
   k <- k + k.testing
 }
+
 
 
 
@@ -338,3 +341,16 @@ while(TRUE)
 updatePortf(q.strategy, Dates = total.timespan, sep = "")
 results$tradeStats <- tradeStats(q.strategy)
 
+
+# 将最终结果保存于镜像 ----------------------------------------------------------------
+.audit<-new.env()
+put.portfolio(portfolio.st = q.strategy,portfolio = getPortfolio(q.strategy),envir = .audit)
+put.orderbook(portfolio.st = q.strategy,orderbook = get.orderbook(q.strategy),envir = .audit)
+put.account(account.st = q.strategy,account = getAccount(q.strategy),envir = .audit)
+assign('tradeStats',result$tradeStats,envir = .audit)
+save(.audit, file = paste("WFAResults", "RData", sep = "."))
+.audit <- NULL
+
+
+# chart.forward.training(audit.filename = 'pre.Data.RData')
+# chart.forward(audit.filename = 'pre.results.RData')
