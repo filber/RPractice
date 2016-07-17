@@ -17,9 +17,9 @@ DQStrategy<-strategy(q.strategy)
 if (!exists('.blotter')) .blotter <- new.env()
 initPortf(q.strategy, stockSymbol, initDate = initDate,currency = "RMB",initPosQty = PARAM$INIT.POS.QTY)
 # 约束最大持仓数和最小持仓数
-addPosLimit(portfolio = q.strategy,symbol = stockSymbol,longlevels = 1,maxpos = PARAM$MAX.POS.QTY,minpos = PARAM$INIT.POS.QTY,timestamp = as.POSIXct(initDate))
-if(PARAM$INIT.POS.QTY!=0){
-    addPosLimit(portfolio = q.strategy,symbol = stockSymbol,longlevels = 1,maxpos = PARAM$MAX.POS.QTY,minpos = PARAM$MIN.POS.QTY,timestamp = as.POSIXct(PARAM$SIM.TIMESTAMP))
+addPosLimit(portfolio = q.strategy,symbol = stockSymbol,longlevels = 1,maxpos = PARAM$INIT.MAX.POS.QTY,minpos = PARAM$INIT.MIN.POS.QTY,timestamp = as.POSIXct(initDate))
+if(PARAM$FLAG=='simulate'){
+    addPosLimit(portfolio = q.strategy,symbol = stockSymbol,longlevels = 1,maxpos = PARAM$SIM.MAX.POS.QTY,minpos = PARAM$SIM.MIN.POS.QTY,timestamp = as.POSIXct(PARAM$SIM.TIMESTAMP))
 }
 
 # 初始化一个账户
