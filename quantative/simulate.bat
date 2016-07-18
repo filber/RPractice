@@ -1,1 +1,1 @@
-Rscript.exe controller.r simulate
+Rscript.exe simulate.r

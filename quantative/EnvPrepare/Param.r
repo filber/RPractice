@@ -10,13 +10,13 @@ PARAM$FLAG<-if(is.na(PARAM$FLAG))'apply'else PARAM$FLAG
 # Strategy Config ---------------------------------------------------------
 #初始仓位数
 PARAM$INIT.POS.QTY <- 0
-#最大仓位数
+#初始最大仓位数
 PARAM$INIT.MAX.POS.QTY <- 0
-#最小仓位数
+#初始最小仓位数
 PARAM$INIT.MIN.POS.QTY <- 0
-#最大仓位数
+#模拟最大仓位数
 PARAM$SIM.MAX.POS.QTY <- 1000
-#最小仓位数
+#模拟最小仓位数
 PARAM$SIM.MIN.POS.QTY <- 0
 
 #账户初始化时间

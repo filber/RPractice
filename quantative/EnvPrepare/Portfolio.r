@@ -5,7 +5,6 @@ stockSymbol<-'Data'
 initDate<-PARAM$INIT.TIMESTAMP
 
 currency("RMB")
-# stock(stockSymbol, currency = "RMB", multiplier = 1)
 Sys.setenv(TZ="UTC")
 
 # 初始化一个策略
@@ -14,7 +13,7 @@ DQStrategy<-strategy(q.strategy)
 .strategy<-new.env()
 
 # 初始化一个投资组合
-if (!exists('.blotter')) .blotter <- new.env()
+.blotter <- new.env()
 initPortf(q.strategy, stockSymbol, initDate = initDate,currency = "RMB",initPosQty = PARAM$INIT.POS.QTY)
 # 约束最大持仓数和最小持仓数
 addPosLimit(portfolio = q.strategy,symbol = stockSymbol,longlevels = 1,maxpos = PARAM$INIT.MAX.POS.QTY,minpos = PARAM$INIT.MIN.POS.QTY,timestamp = as.POSIXct(initDate))
