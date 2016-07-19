@@ -11,10 +11,8 @@ source('EnvPrepare/Portfolio.r')# 准备投资组合
 source('StrategyScript/Common_Logic.r')
 
 # Result Folder ------------------------------------------------------------
-if(PARAM$FLAG != 'simulate') {
-  resultPrefix<-paste('Results/',as.character.Date(Sys.time(),format='%Y%m%d_%H%M%S'),'/',sep = '')
-  dir.create(resultPrefix)
-}
+resultPrefix<-paste('Results/',as.character.Date(Sys.time(),format='%Y%m%d_%H%M%S'),'/',sep = '')
+dir.create(resultPrefix)
 
 # ApplyStrategy -----------------------------------------------------------
 if(PARAM$FLAG == 'apply') {
@@ -32,18 +30,10 @@ if(PARAM$FLAG == 'optimize') {
   source('Diagnostics/OptimizeDiagnostics.r')
 }
 
-if(PARAM$FLAG != 'simulate') {
-  # Report ------------------------------------------------------------------
-  # 生成测试报告
-  source('Report/Report.r')
-  
-  # Save -------------------------------------------------------------
-  # 保存所有变量到镜像文件
-  save(list = ls(all=TRUE),file = paste(resultPrefix,'Img.RData',sep = ''))
-}
+# Report ------------------------------------------------------------------
+# 生成测试报告
+source('Report/Report.r')
 
-# Simulate ----------------------------------------------------------------
-if(PARAM$FLAG == 'simulate') {
-  # 执行策略
-  source('Apply/ApplyStrategy.r')
-}
+# Save -------------------------------------------------------------
+# 保存所有变量到镜像文件
+save(list = ls(all=TRUE),file = paste(resultPrefix,'Img.RData',sep = ''))

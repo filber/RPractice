@@ -26,7 +26,13 @@ lastTimestamp<-tail(db_record,n = 1)$time
 Data<-as.xts(x = db_record[-1],order.by = db_record$time)
 Data<-to.minutes(x = Data,k = 1)
 
-#模拟交易的起始时间约束为Data的倒数第二条记录的时间戳
+
+# 设置模拟交易参数 ----------------------------------------------------------------
+# 1.模拟交易的起始时间约束为Data的倒数第二条记录的时间戳
 PARAM$SIM.TIMESTAMP <- index(tail(Data,n=2)[1])
-
-
+# 2.初始仓位数
+PARAM$INIT.POS.QTY<-configcon$find(sprintf('{"code":"%s"}',PARAM$STOCK.SYMBOL))$position[1]
+# 3.初始最大仓位数
+PARAM$INIT.MAX.POS.QTY <- PARAM$INIT.POS.QTY
+# 4.初始最小仓位数
+PARAM$INIT.MIN.POS.QTY <- PARAM$INIT.POS.QTY
