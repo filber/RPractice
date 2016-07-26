@@ -10,6 +10,7 @@ data(DowJones30)
 #取得一列数据HWP并转化为时间序列
 y<-timeSeries(DowJones30[,'HWP'],charvec = as.character(DowJones30[,1]))
 #首先将y对数化,然后转换为相邻记录的difference.相当于将涨跌幅变相体现出来.
+#diff(log(y))=log(y2)-log(y1)=log(y2/y1)
 yret<-na.omit(diff(log(y))*100)
 
 
@@ -25,7 +26,7 @@ nigfit<-fit.NIGuv(data = yret,symmetric = FALSE,control=(list(maxit=1000)))
 
 
 # 3.密度 --------------------------------------------------------------------
-#核密度估计,用于估计未知样本的密度函数
+#核密度估计,用于估计未知分布的样本的密度函数
 ef<-density(yret)
 #GHD密度
 ghddens<-dghyp(x = ef$x,object = ghdfit)
@@ -61,9 +62,8 @@ legend('topleft',legend=c('GHD','HYP','NIG'),col=col.def[-c(1,5)],pch=1:3,cex=0.
 
 
 # 6.诊断 --------------------------------------------------------------------
-#使用赤池信息准则(Akaike Information Criterion,AIC)来度量拟合的优度,病选出一个最优的模型
+#使用赤池信息准则(Akaike Information Criterion,AIC)来度量拟合的优度,并选出一个最优的模型
 AIC<-stepAIC.ghyp(data = yret,dist = c('ghyp','hyp','NIG'),symmetric = FALSE,control=(list(maxit=1000)))
-View(AIC$fit.table)
 #最优的模型为GHD
 print(AIC$best.model)
 #验证GHD和NIG的似然比率
